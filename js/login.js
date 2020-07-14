@@ -27,10 +27,14 @@ const loginUser = () => {
             password: e.target.password.value,
             favorites: [],
           };
+          
+          //Si no existe el usuario
           if (!compareItemLS(currentUser)) {
             setItemLS(currentUser.id, JSON.stringify(currentUser));
             sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
             userLogged = currentUser;
+
+          //Si ya existe el usuario
           } else {
             const [id, username, password, favorites] = compareItemLS(
               currentUser
