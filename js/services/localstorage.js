@@ -44,7 +44,7 @@ export function removeFavoriteLS(imdb_id) {
  
 }
 
-//Comprueba si el usuario a iniciado sesión
+//Comprueba si el usuario ha iniciado sesión
 export function confirmUser(){
   (function() { 
     if(!sessionStorage.getItem('currentUser')){
