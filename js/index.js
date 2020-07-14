@@ -41,7 +41,7 @@ const formSeach = () => {
   }
 };
 
-//Crea listado de palicualas encontradas
+//Crea listado de películas encontradas
 const createListCardsMovie = (movies) => {
   const $fragment = d.createDocumentFragment();
   $resultOMDB.innerHTML = "";
