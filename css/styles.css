@@ -202,6 +202,8 @@ body {
 }
 .resultOMDB .movie_container {
   width: 200px;
+  
+  
 }
 .resultOMDB .movie_container .container_img,
 .list__favorites .movie_container .container_img {

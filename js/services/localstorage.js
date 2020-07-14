@@ -1,14 +1,13 @@
+//Retorna value de localstorage segun Key
 export function getItemLS(key) {
   return localStorage.getItem(key);
 }
+//Añade key/value de localstorage 
 export function setItemLS(key, value) {
   localStorage.setItem(key, value);
 }
 
-export function getHasPropertyLS(key) {
-  return localStorage.hasOwnProperty(key);
-}
-
+//Retorna el [usuario] si ya existe en localstorage
 export function compareItemLS({ username, password }) {
   for (let i = 0; i < localStorage.length; i++) {
     if (localStorage.key(i) !== "loglevel:webpack-dev-server") {
@@ -21,11 +20,13 @@ export function compareItemLS({ username, password }) {
   }
 }
 
+//Retorna true/false si la pelicula favorita ya existe en el listado del usuario
 export function compareFavoritesItemLS(imdb_id) {
   const user = JSON.parse(sessionStorage.getItem("currentUser"));
   return user.favorites.some((fav) => fav === imdb_id);
 }
 
+//Retorna string-class
 export function favSavedUser(imdb_id) {
  if(compareFavoritesItemLS(imdb_id)){
    return "fav"
@@ -34,8 +35,8 @@ export function favSavedUser(imdb_id) {
  }
 }
 
+//Retorna [favoritos] despues de eliminar un item
 export function removeFavoriteLS(imdb_id) {
- 
   const user = JSON.parse(sessionStorage.getItem("currentUser"));
   const userLS = JSON.parse(localStorage.getItem(user.id));
   const newFav= userLS.favorites.filter((fav) => fav !== imdb_id);
@@ -43,6 +44,7 @@ export function removeFavoriteLS(imdb_id) {
  
 }
 
+//Comprueba si el usuario a iniciado sesión
 export function confirmUser(){
   (function() { 
     if(!sessionStorage.getItem('currentUser')){

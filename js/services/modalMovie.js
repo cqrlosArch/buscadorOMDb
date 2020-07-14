@@ -1,5 +1,6 @@
 import {getMovie} from './apiOMDb.js'
 
+//Crea el modal con los detalles de la película selecionada
 export const modalMovieActive = (movie,modalMovie) => {
     const $modalMovie = document.querySelector(modalMovie);
     const $listMovies = document.querySelectorAll(movie);
@@ -42,6 +43,7 @@ export const modalMovieActive = (movie,modalMovie) => {
     });
   };
 
+//Cierra el modal
   export const closeModalMovie = (modalMovie,modalClose) => {
     const $modalMovie = document.querySelector(modalMovie);
     const $modalClose = document.querySelector(modalClose);

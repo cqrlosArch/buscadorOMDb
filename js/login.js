@@ -2,6 +2,7 @@ import {setItemLS, compareItemLS} from './services/localstorage.js'
 import {gId} from './services/IDgenerator.js'
 
 let userLogged = JSON.parse(sessionStorage.getItem("currentUser"));
+
 const d=document
 
 //Pattern del formulario de Login

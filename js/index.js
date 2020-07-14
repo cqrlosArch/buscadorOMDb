@@ -18,8 +18,10 @@ const $resultOMDB = d.querySelector(".resultOMDB");
 
 let userLogged = JSON.parse(sessionStorage.getItem("currentUser"));
 
+//Confirma que el usuario ha sido logeado
 confirmUser();
 
+//Verifica datos introducidos en el formulario de busqueda
 const formSeach = () => {
   if ($inputSearch) {
     if (sessionStorage.getItem("currentUser"))
@@ -39,6 +41,7 @@ const formSeach = () => {
   }
 };
 
+//Crea listado de palicualas encontradas
 const createListCardsMovie = (movies) => {
   const $fragment = d.createDocumentFragment();
   $resultOMDB.innerHTML = "";
@@ -69,6 +72,7 @@ const createListCardsMovie = (movies) => {
 };
 
 
+//Añade o elimina de favoritos las películas selecionadas
 const addMovieFavorites = () => {
   const $iconsFavorites = d.querySelectorAll(".movie_favorite");
 
@@ -86,7 +90,6 @@ const addMovieFavorites = () => {
           );
         } else {
           e.target.classList.remove("fav");
-          console.log(removeFavoriteLS(e.target.dataset.imdb_id));
           setItemLS(
             userLogged.id,
             JSON.stringify({
@@ -103,6 +106,7 @@ const addMovieFavorites = () => {
   });
 };
 
+//Cierre sesión
 const logout = () => {
   const $logout = d.querySelector(".user_logout");
   $logout.addEventListener("click", (e) => {
@@ -115,15 +119,16 @@ const logout = () => {
   });
 };
 
+//Enlace a la página de favoritos
 const favoritesPage = () => {
   const $linkFavorites = d.querySelector(".user_favorites ");
-
   $linkFavorites.addEventListener("click", (e) => {
     e.preventDefault();
     window.location.replace("/favorites.html");
   });
 };
 
+//Usuario logeado
 const init = () => {
   if (userLogged) {
     $user_name.insertAdjacentText('beforeend',`${userLogged.username}`)

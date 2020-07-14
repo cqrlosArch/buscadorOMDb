@@ -7,7 +7,6 @@ const pages = ["1", "2"]; //Para obtener 20 resultados
 export async function getMovies(nameMovie) {
   let resMovies=[]
   for (const i of pages) {
-    console.log(i);
     try {
       const dataFetch = await fetch(
         `${url}s=${nameMovie}&plot=full&page=${pages[i]}`

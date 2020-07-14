@@ -6,18 +6,21 @@ import {
 } from "./services/localstorage.js";
 import { getMovie } from "./services/apiOMDb.js";
 
-import {modalMovieActive} from './services/modalMovie.js'
+import { modalMovieActive } from "./services/modalMovie.js";
 
 const d = document;
 
 const $user_name = d.querySelector(".user_logged");
 const $listMoviesFav = d.querySelector(".list__favorites");
+
 let userLogged = JSON.parse(sessionStorage.getItem("currentUser"));
 
+//Crea listado de favoritos del usuario almacenado el localstorage
 const createListFavorites = async () => {
   const user = await JSON.parse(getItemLS(userLogged.id));
   $listMoviesFav.innerHTML = "";
   const favs = user.favorites;
+  const $fragment = d.createDocumentFragment();
   for (const favId of favs) {
     const movie = await getMovie(favId);
     const $divMovie = d.createElement("article");
@@ -36,17 +39,17 @@ const createListFavorites = async () => {
     }">&#9733;</span>
  </div>
 `;
-$listMoviesFav.appendChild($divMovie);
+    $fragment.appendChild($divMovie);
   }
-  
+  $listMoviesFav.appendChild($fragment);
 };
 
+//Elimina favorito del listado selecionado por el usuario
 const deleteFavorite = async (fav) => {
   const $listFav = d.querySelectorAll(fav);
   $listFav.forEach((fav) => {
     d.addEventListener("click", (e) => {
       if (e.target === fav) {
-        console.log("feo");
         setItemLS(
           userLogged.id,
           JSON.stringify({
@@ -64,12 +67,14 @@ const deleteFavorite = async (fav) => {
   });
 };
 
+//Actualiza lista de favoritos
 const updateList = async () => {
   await createListFavorites();
   deleteFavorite(".movie_favorite");
   modalMovieActive(".details_movie", ".modal__movie");
 };
 
+//Incio. Boton regreso a Inicio y Usuario Logeado
 const init = async () => {
   const $btnBack = d.querySelector(".nav__icon");
   d.addEventListener("click", (e) => {
@@ -78,9 +83,8 @@ const init = async () => {
       window.location.replace("/index.html");
     }
   });
-
-  if(userLogged){
-    $user_name.textContent=`${userLogged.username}`
+  if (userLogged) {
+    $user_name.textContent = `${userLogged.username}`;
   }
 };
 
