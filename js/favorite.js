@@ -16,32 +16,43 @@ const $listMoviesFav = d.querySelector(".list__favorites");
 let userLogged = JSON.parse(sessionStorage.getItem("currentUser"));
 
 //Crea listado de favoritos del usuario almacenado el localstorage
-const createListFavorites = async () => {
-  const user = await JSON.parse(getItemLS(userLogged.id));
+const createListFavorites = async (numFav) => {
   $listMoviesFav.innerHTML = "";
-  const favs = user.favorites;
+  let moviePromise = [];
+  let responsePromise;
+  let $divMovie;
+  const favs = numFav;
   const $fragment = d.createDocumentFragment();
   for (const favId of favs) {
-    const movie = await getMovie(favId);
-    const $divMovie = d.createElement("article");
-    $divMovie.classList.add("movie_container");
-    $divMovie.innerHTML = `
-  <div class="container_img">
-  <img src="${
-    movie.Poster !== "N/A" ? movie.Poster : "images/not_found.png"
-  }" loading="lazy"  alt="${movie.Title}" class="movie_img">
-  <span class="details_movie" data-imdb_id="${movie.imdbID}">See more...</span>
-</div>
- <div class="movie_body">
-    <h4 class="movie_title">${movie.Title} [${movie.Year}]</h4>
-    <span class="movie_favorite fav" data-imdb_id="${
+    responsePromise = getMovie(favId);
+    moviePromise.push(responsePromise);
+    let allPromises = await Promise.all(moviePromise);
+    for (const movie of allPromises) {
+      $divMovie = d.createElement("article");
+      $divMovie.classList.add("movie_container");
+      $divMovie.innerHTML = `
+    <div class="container_img">
+    <img src="${
+      movie.Poster !== "N/A" ? movie.Poster : "images/not_found.png"
+    }" loading="lazy"  alt="${movie.Title}" class="movie_img">
+    <span class="details_movie" data-imdb_id="${
       movie.imdbID
-    }">&#9733;</span>
- </div>
-`;
+    }">See more...</span>
+  </div>
+   <div class="movie_body">
+      <h4 class="movie_title">${movie.Title} [${movie.Year}]</h4>
+      <span class="movie_favorite fav" data-imdb_id="${
+        movie.imdbID
+      }">&#9733;</span>
+   </div>
+  `;
+    }
+
     $fragment.appendChild($divMovie);
   }
   $listMoviesFav.appendChild($fragment);
+  deleteFavorite(".movie_favorite");
+  modalMovieActive(".details_movie", ".modal__movie");
 };
 
 //Elimina favorito del listado selecionado por el usuario
@@ -61,17 +72,17 @@ const deleteFavorite = async (fav) => {
         const user = getItemLS(userLogged.id);
         userLogged = JSON.parse(user);
         sessionStorage.setItem("currentUser", JSON.stringify(userLogged));
-        updateList();
+        updateList(userLogged.favorites);
       }
     });
   });
 };
 
 //Actualiza lista de favoritos
-const updateList = async () => {
-  await createListFavorites();
-  deleteFavorite(".movie_favorite");
-  modalMovieActive(".details_movie", ".modal__movie");
+const updateList = async (newFav) => {
+   createListFavorites(newFav);
+  
+
 };
 
 //Incio. Boton regreso a Inicio y Usuario Logeado
@@ -91,5 +102,6 @@ const init = async () => {
 d.addEventListener("DOMContentLoaded", async () => {
   confirmUser();
   init();
-  await updateList();
+  await  createListFavorites(userLogged.favorites);
+  
 });
