@@ -16,8 +16,9 @@
             class="modal__user"
             placeholder="User"
             name="username"
-            title="Username  3-15 characters [a-z0-9]"
+            title="Username 3-15 characters [a-z0-9]"
             pattern="^[A-Za-z0-9_]{3,15}$"
+            required
           /><input
             class="modal__password"
             type="password"
@@ -25,6 +26,7 @@
             name="password"
             title="Password min 8 Chars, UpperCase, LowerCase and Number"
             pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$"
+            required
           /><button class="modal__button">Send</button>
         </form>
       </div>

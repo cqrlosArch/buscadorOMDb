@@ -12,6 +12,7 @@ import {modalMovieActive} from './services/modalMovie.js'
 
 const d = document;
 const $user_name = d.querySelector(".user_logged");
+const $linkFav = d.querySelector(".user_favorites");
 const $inputSearch = d.querySelector(".searchOMDB__input");
 const $resultOMDB = d.querySelector(".resultOMDB");
 
@@ -101,6 +102,7 @@ const addMovieFavorites = () => {
         const user = getItemLS(userLogged.id);
         userLogged = JSON.parse(user);
         sessionStorage.setItem("currentUser", JSON.stringify(userLogged));
+        if(userLogged.favorites.length>0) $linkFav.classList.add("active")
       }
     });
   });
@@ -132,6 +134,8 @@ const favoritesPage = () => {
 const init = () => {
   if (userLogged) {
     $user_name.insertAdjacentText('beforeend',`${userLogged.username}`)
+    if(userLogged.favorites.length>0) $linkFav.classList.add("active")
+
   }
 };
 
